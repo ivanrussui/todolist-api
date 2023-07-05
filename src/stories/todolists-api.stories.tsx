@@ -11,7 +11,7 @@ export const GetTodolists = () => {
         // здесь мы будем делать запрос и ответ закидывать в стейт.
         // который в виде строки будем отображать в div-ке
         todolistAPI.getTodolists().then((res) => {
-            // console.log(res)
+            console.log(res.data)
             setState(res.data)
         })
     }, [])
