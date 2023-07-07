@@ -11,7 +11,7 @@ export const GetTodolists = () => {
         // здесь мы будем делать запрос и ответ закидывать в стейт.
         // который в виде строки будем отображать в div-ке
         todolistAPI.getTodolists().then((res) => {
-            console.log(res.data)
+            // console.log(res.data)
             setState(res.data)
         })
     }, [])
@@ -46,7 +46,6 @@ export const UpdateTodolistTitle = () => {
     useEffect(() => {
         const todolistId = 'd5b51239-3e62-4596-8e8e-806b979c40a7'
         todolistAPI.updateTodolist(todolistId, 'JavaScript').then((res) => {
-            // console.log(res.data)
             setState(res.data)
         })
     }, [])
