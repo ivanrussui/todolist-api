@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
 // непосредственно создаём store
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunk));
 
-export type AppDispatchType = ThunkDispatch<AppDispatchType, any, AnyAction>
+export type AppDispatchType = ThunkDispatch<AppRootStateType, any, AnyAction>
 export const useAppDispatch = () => useDispatch<AppDispatchType>()
 
 // определить автоматически тип всего объекта состояния
