@@ -177,7 +177,7 @@ export const updateTaskStatusTC = (taskId: string, todolistId: string, status: T
 
 
         if (task) {
-            todolistsAPI.updateTaskStatus(todolistId, taskId, {
+            todolistsAPI.updateTask(todolistId, taskId, {
                 title: task.title,
                 startDate: task.startDate,
                 priority: task.priority,
@@ -201,7 +201,7 @@ export const updateTaskTitleTC = (taskId: string, todolistId: string, title: str
         })
 
         if (task) {
-            todolistsAPI.updateTaskTitle(todolistId, taskId, {
+            todolistsAPI.updateTask(todolistId, taskId, {
                 title: title,
                 startDate: task.startDate,
                 priority: task.priority,
