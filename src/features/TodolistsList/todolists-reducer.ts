@@ -1,6 +1,6 @@
 import {todolistsAPI, TodolistType} from '../../api/todolists-api'
 import {Dispatch} from 'redux'
-import {setAppStatusAC, SetAppStatusActionType} from "../../app/app-reducer";
+import {setAppErrorAC, SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from "../../app/app-reducer";
 
 const initialState: Array<TodolistDomainType> = []
 
@@ -60,13 +60,36 @@ export const removeTodolistTC = (todolistId: string) => {
 export const addTodolistTC = (title: string) => {
     return (dispatch: Dispatch<ActionsType>) => {
         dispatch(setAppStatusAC('loading'))
+
         todolistsAPI.createTodolist(title)
             .then((res) => {
-                dispatch(addTodolistAC(res.data.data.item))
-                dispatch(setAppStatusAC('succeeded'))
+                if (res.data.resultCode === 0) {
+                    const task = res.data.data.item
+                    dispatch(addTodolistAC(task))
+                    dispatch(setAppStatusAC('succeeded'))
+                } else {
+                    if (res.data.messages.length) {
+                        dispatch(setAppErrorAC(res.data.messages[0]))
+                    } else {
+                        dispatch(setAppErrorAC('Some error occurred'))
+                    }
+                    dispatch(setAppStatusAC('failed'))
+                }
             })
     }
 }
+
+// export const addTodolistTC = (title: string) => {
+//     return (dispatch: Dispatch<ActionsType>) => {
+//         dispatch(setAppStatusAC('loading'))
+//         todolistsAPI.createTodolist(title)
+//             .then((res) => {
+//                 dispatch(addTodolistAC(res.data.data.item))
+//                 dispatch(setAppStatusAC('succeeded'))
+//             })
+//     }
+// }
+
 export const changeTodolistTitleTC = (id: string, title: string) => {
     return (dispatch: Dispatch<ActionsType>) => {
         dispatch(setAppStatusAC('loading'))
@@ -94,4 +117,6 @@ type ActionsType =
     | ReturnType<typeof changeTodolistFilterAC>
     | SetTodolistsActionType
     | SetAppStatusActionType
+    | SetAppErrorActionType
+
 
