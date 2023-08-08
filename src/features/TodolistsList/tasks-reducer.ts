@@ -89,17 +89,6 @@ export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispa
         })
 }
 
-// export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
-//     dispatch(setAppStatusAC('loading'))
-//     todolistsAPI.createTask(todolistId, title)
-//         .then(res => {
-//             const task = res.data.data.item
-//             const action = addTaskAC(task)
-//             dispatch(action)
-//             dispatch(setAppStatusAC('succeeded'))
-//         })
-// }
-
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string) =>
     (dispatch: Dispatch<ActionsType>, getState: () => AppRootStateType) => {
         const state = getState()
