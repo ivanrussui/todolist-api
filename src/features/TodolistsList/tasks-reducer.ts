@@ -87,6 +87,10 @@ export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispa
                 dispatch(setAppStatusAC('failed'))
             }
         })
+        .catch((error) => {
+            dispatch(setAppStatusAC('failed'))
+            dispatch(setAppErrorAC(error.message))
+        })
 }
 
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string) =>
@@ -110,11 +114,21 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
         }
 
         dispatch(setAppStatusAC('loading'))
+
         todolistsAPI.updateTask(todolistId, taskId, apiModel)
             .then(res => {
-                const action = updateTaskAC(taskId, domainModel, todolistId)
-                dispatch(action)
-                dispatch(setAppStatusAC('succeeded'))
+                if (res.data.resultCode === 0) {
+                    const action = updateTaskAC(taskId, domainModel, todolistId)
+                    dispatch(action)
+                    dispatch(setAppStatusAC('succeeded'))
+                } else {
+                    dispatch(setAppErrorAC('Some error occurred'))
+                }
+                dispatch(setAppStatusAC('failed'))
+            })
+            .catch((error) => {
+                dispatch(setAppStatusAC('failed'))
+                dispatch(setAppErrorAC(error.message))
             })
     }
 
