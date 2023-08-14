@@ -2,9 +2,9 @@ import React, {useCallback, useEffect} from 'react'
 import {AddItemForm} from '../../../components/AddItemForm/AddItemForm'
 import {EditableSpan} from '../../../components/EditableSpan/EditableSpan'
 import {Task} from './Task/Task'
-import {TaskStatuses, TaskType} from '../../../api/todolists-api'
+import {TaskStatuses} from '../../../api/todolists-api'
 import {FilterValuesType} from '../todolists-reducer'
-import {fetchTasksTC} from '../tasks-reducer'
+import {fetchTasksTC, TaskDomainType} from '../tasks-reducer'
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import {Delete} from '@mui/icons-material';
@@ -14,7 +14,7 @@ import {RequestStatusType} from "../../../app/app-reducer";
 type PropsType = {
     id: string
     title: string
-    tasks: Array<TaskType>
+    tasks: Array<TaskDomainType>
     changeFilter: (value: FilterValuesType, todolistId: string) => void
     addTask: (title: string, todolistId: string) => void
     changeTaskStatus: (id: string, status: TaskStatuses, todolistId: string) => void
@@ -74,7 +74,8 @@ export const Todolist = React.memo(function (props: PropsType) {
                                                 removeTask={props.removeTask}
                                                 changeTaskTitle={props.changeTaskTitle}
                                                 changeTaskStatus={props.changeTaskStatus}
-                                                // entityStatus={t.entityStatus}
+                                                entityStatus={t.entityStatus}
+                                                entityStatusTodolist={props.entityStatus}
 
                 />)
             }
