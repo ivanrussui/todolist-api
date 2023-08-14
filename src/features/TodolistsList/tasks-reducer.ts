@@ -54,11 +54,6 @@ export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionsT
     dispatch(setAppStatusAC('loading'))
     todolistsAPI.getTasks(todolistId)
         .then((res) => {
-            // const tasks = res.data.items
-            // const action = setTasksAC(tasks, todolistId)
-            // dispatch(action)
-            // dispatch(setAppStatusAC('succeeded'))
-            // todo с этим на ревью не уверен что тут нужна обработка
             if (res.data.items) {
                 const tasks = res.data.items
                 const action = setTasksAC(tasks, todolistId)

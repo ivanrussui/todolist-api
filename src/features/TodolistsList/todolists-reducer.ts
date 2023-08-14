@@ -55,15 +55,15 @@ export const fetchTodolistsTC = () => {
         dispatch(setAppStatusAC('loading'))
         todolistsAPI.getTodolists()
             .then((res) => {
-                // dispatch(setTodolistsAC(res.data))
-                // dispatch(setAppStatusAC('succeeded'))
-                // todo с этим на ревью похоже эта обработка ошибки бесполезная
                 if (res.data) {
                     dispatch(setTodolistsAC(res.data))
                     dispatch(setAppStatusAC('succeeded'))
                 } else {
                     handleServerAppError(res.data, dispatch)
                 }
+            })
+            .catch((error) => {
+                handleServerNetworkError(error, dispatch)
             })
     }
 }
@@ -113,7 +113,6 @@ export const changeTodolistTitleTC = (id: string, title: string) => {
                     dispatch(changeTodolistTitleAC(id, title))
                     dispatch(setAppStatusAC('succeeded'))
                 } else {
-                    // todo rewire типизация не <{ title: string }> потому что он не в ResponseType!?
                     handleServerAppError(res.data, dispatch)
                 }
             })
