@@ -8,6 +8,8 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
+import {useAppDispatch, useAppSelector} from "../../app/store";
+import {loginTC} from "./auth-reducer";
 
 type FormikErrorType = {
     email?: string
@@ -16,6 +18,9 @@ type FormikErrorType = {
 }
 
 export const Login = () => {
+    const dispatch = useAppDispatch();
+    // const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -24,6 +29,7 @@ export const Login = () => {
         },
         validate: (values) => {
             const errors: FormikErrorType = {}
+
             if (!values.email) {
                 errors.email = 'Required'
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -34,10 +40,13 @@ export const Login = () => {
             } else if (values.password.length < 4) {
                 errors.password = 'Password less than 4 characters'
             }
+
             return errors
         },
         onSubmit: values => {
-            alert(JSON.stringify(values));
+            // alert(JSON.stringify(values));
+            dispatch(loginTC(values));
+            // debugger
             formik.resetForm();
         },
     })
