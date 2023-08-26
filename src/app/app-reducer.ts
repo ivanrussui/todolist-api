@@ -1,3 +1,8 @@
+import {Dispatch} from "redux";
+import {authAPI} from "../api/todolists-api";
+import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
+import {setIsLoggedInAC} from "../features/Login/auth-reducer";
+
 const initialState: InitialStateType = {
     status: 'idle',
     error: null
@@ -24,6 +29,23 @@ export type InitialStateType = {
 
 export const setAppErrorAC = (error: string | null) => ({type: 'APP/SET-ERROR', error} as const)
 export const setAppStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-STATUS', status} as const)
+
+export const initializeAppTC = () => (dispatch: Dispatch) => {
+    dispatch(setAppStatusAC('loading'))
+    authAPI.me()
+        .then(res => {
+            // debugger
+            if (res.data.resultCode === 0) {
+                dispatch(setIsLoggedInAC(true))
+                dispatch(setAppStatusAC('succeeded'))
+            } else {
+                handleServerAppError(res.data, dispatch)
+            }
+        })
+        .catch((err) => {
+            handleServerNetworkError(err, dispatch)
+        })
+}
 
 export type SetAppErrorActionType = ReturnType<typeof setAppErrorAC>
 export type SetAppStatusActionType = ReturnType<typeof setAppStatusAC>
