@@ -38,4 +38,6 @@ export const loginTC = (data: LoginParamsType ) => (dispatch: Dispatch<ActionsTy
 }
 
 // types
-type ActionsType = ReturnType<typeof setIsLoggedInAC> | SetAppStatusActionType | SetAppErrorActionType
+export type SetIsLoggedInActionType = ReturnType<typeof setIsLoggedInAC>
+
+type ActionsType = SetIsLoggedInActionType | SetAppStatusActionType | SetAppErrorActionType
