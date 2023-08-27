@@ -15,12 +15,15 @@ import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
 import {Navigate, Route, Routes} from "react-router-dom";
 import {Login} from "../features/Login/Login";
 import {CircularProgress} from "@mui/material";
+import {logoutTC} from "../features/Login/auth-reducer";
 
 
 function App() {
     const dispatch = useAppDispatch()
     const status = useAppSelector<RequestStatusType>((state) => state.app.status)
     const isInitialized = useAppSelector<boolean>((state) => state.app.isInitialized)
+    const isLoggedIn = useAppSelector<boolean>((state) => state.auth.isLoggedIn)
+
 
     useEffect(() => {
         dispatch(initializeAppTC())
@@ -31,6 +34,10 @@ function App() {
             style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
             <CircularProgress/>
         </div>
+    }
+
+    const onClickHandler = () => {
+        dispatch(logoutTC())
     }
 
     return (
@@ -44,7 +51,10 @@ function App() {
                     <Typography variant="h6">
                         News
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    {isLoggedIn
+                        ? <Button color="inherit" onClick={onClickHandler}>Logout</Button>
+                        : <Button color="inherit">Login</Button>
+                    }
                 </Toolbar>
                 {status === 'loading' && <LinearProgress/>}
             </AppBar>
