@@ -46,7 +46,7 @@ export const clearTodosDataAC = () => ({type: 'CLEAR-DATA'} as const)
 
 // thunks
 export const fetchTodolistsTC = () => {
-    return (dispatch: any) => {
+    return (dispatch: ThunkDispatch) => {
         dispatch(setAppStatusAC('loading'))
         todolistsAPI.getTodolists()
             .then((res) => {
@@ -115,4 +115,7 @@ export type TodolistDomainType = TodolistType & {
     filter: FilterValuesType
     entityStatus: RequestStatusType
 }
-type ThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType>
+// type ThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType>
+
+type ThunkDispatchType = <TAction>(action: TAction) => TAction | void;
+type ThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType> & ThunkDispatchType;
